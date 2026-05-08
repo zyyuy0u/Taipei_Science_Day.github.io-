@@ -135,19 +135,20 @@
   }
   .time{
     font-family:"Archivo Black",sans-serif;
-    font-size: clamp(180px, 30vw, 480px);
-    line-height:.82;
-    letter-spacing:-.04em;
+    font-size: clamp(120px, 18vw, 340px);
+    line-height:.85;
+    letter-spacing:-.03em;
     color:var(--ink);
-    text-shadow: 14px 14px 0 var(--hot);
+    text-shadow: 10px 10px 0 var(--hot);
     position:relative;
     user-select:none;
     animation: pop .6s cubic-bezier(.2,1.4,.4,1);
+    padding: 0 .15em;
   }
   .time::before{
     content:"";
     position:absolute;
-    inset:-12px -24px;
+    inset:-8px -4px;
     border:6px solid var(--ink);
     background:transparent;
     transform:rotate(-.6deg);
@@ -217,27 +218,41 @@
   .interval-card{
     background:var(--bg);
     border:6px solid var(--ink);
-    padding:20px;
+    padding:24px 22px 26px;
     box-shadow:10px 10px 0 var(--ink);
     position:relative;
   }
   .interval-card .num{
     font-family:"Archivo Black",sans-serif;
-    font-size:140px;
-    line-height:.85;
+    font-size: clamp(160px, 13vw, 220px);
+    line-height:.82;
     letter-spacing:-.04em;
     color:var(--ink);
-    text-shadow:6px 6px 0 var(--hot);
+    text-shadow:8px 8px 0 var(--hot);
   }
   .interval-card .unit{
     font-family:"Noto Sans TC",sans-serif;
-    font-weight:900;font-size:32px;
-    margin-top:6px;
+    font-weight:900;
+    font-size: clamp(40px, 3.2vw, 56px);
+    line-height:1;
+    margin-top:8px;
   }
   .interval-card .desc{
     font-family:"Noto Sans TC",sans-serif;
-    font-weight:700;font-size:18px;
-    margin-top:10px;line-height:1.4;
+    font-weight:900;
+    font-size: clamp(22px, 1.8vw, 30px);
+    margin-top:14px;
+    line-height:1.35;
+    border-top:4px solid var(--ink);
+    padding-top:12px;
+  }
+  .interval-card .desc .range{
+    display:block;
+    font-family:"Space Mono",monospace;
+    font-weight:700;
+    font-size: .68em;
+    margin-top:4px;
+    letter-spacing:.05em;
   }
   .interval-card .stamp{
     position:absolute;top:-14px;right:-14px;
@@ -366,8 +381,8 @@
     <div class="interval-card">
       <div class="stamp">INTERVAL</div>
       <div class="num">15</div>
-      <div class="unit">分鐘</div>
-      <div class="desc">每一梯次隔 15 分鐘<br/>9:15 → 16:00</div>
+      <div class="unit">分鐘 / MIN</div>
+      <div class="desc">每一梯次隔 15 分鐘<span class="range">09:15 → 16:00</span></div>
     </div>
 
     <div class="clock-card">
