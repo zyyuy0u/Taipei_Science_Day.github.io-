@@ -560,7 +560,14 @@
       else if(m <= now) el.classList.add("past");
       else el.classList.add("future");
     });
-    if(nextEl) nextEl.scrollIntoView({block:"nearest", inline:"nearest"});
+    // Keep .next visible inside schedule-grid only — never scroll ancestors (was breaking mobile page scroll)
+    if(nextEl){
+      const top = nextEl.offsetTop;
+      const bottom = top + nextEl.offsetHeight;
+      if(top < grid.scrollTop || bottom > grid.scrollTop + grid.clientHeight){
+        grid.scrollTop = Math.max(0, top - 4);
+      }
+    }
 
     // live clock
     const d = new Date();
