@@ -135,7 +135,7 @@
   }
   .time{
     font-family:"Archivo Black",sans-serif;
-    font-size: clamp(120px, 18vw, 340px);
+    font-size: 200px; /* JS will scale this up to fill container */
     line-height:.85;
     letter-spacing:-.03em;
     color:var(--ink);
@@ -143,7 +143,8 @@
     position:relative;
     user-select:none;
     animation: pop .6s cubic-bezier(.2,1.4,.4,1);
-    padding: 0 .15em;
+    padding: 0 .12em;
+    white-space:nowrap;
   }
   .time::before{
     content:"";
@@ -481,7 +482,37 @@
     const d = new Date();
     document.getElementById("now").textContent =
       `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+
+    // Auto-fit the big time so it fills the available area without clipping
+    fitTime();
   }
+
+  function fitTime(){
+    const wrap = document.querySelector(".time-wrap");
+    const t = document.getElementById("time");
+    if(!wrap || !t) return;
+    const wrapW = wrap.clientWidth;
+    const wrapH = wrap.clientHeight;
+    if(wrapW < 10 || wrapH < 10) return;
+    // safety margin for text-shadow + the rotated ::before frame
+    const SAFE_W = 36;
+    const SAFE_H = 32;
+    const targetW = wrapW - SAFE_W;
+    const targetH = wrapH - SAFE_H;
+    // start from a known size and scale by ratio
+    const probe = 200;
+    t.style.fontSize = probe + "px";
+    // force layout
+    const rect = t.getBoundingClientRect();
+    if(rect.width < 1 || rect.height < 1) return;
+    const scaleW = targetW / rect.width;
+    const scaleH = targetH / rect.height;
+    let next = Math.floor(probe * Math.min(scaleW, scaleH));
+    // clamp for sanity
+    next = Math.max(120, Math.min(next, 720));
+    t.style.fontSize = next + "px";
+  }
+  window.addEventListener("resize", fitTime);
 
   // Marquee content
   (function(){
@@ -500,6 +531,10 @@
 
   update();
   setInterval(update, 1000);
+  // Re-fit once webfonts have loaded (initial measurement uses fallback metrics)
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(()=>{ fitTime(); });
+  }
 </script>
 </body>
 </html>
